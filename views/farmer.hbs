@@ -1,0 +1,52 @@
+<a class="btn-large" href="/">Home</a>
+<h2>Welcome {{user.fname}}</h2>
+<p>{{user.type}}</p>
+
+{{#if user.type}}
+
+<div class="main" style="padding:25px; padding-top:0px;">
+  <!-- <h4>Specials</h4> -->
+  <h4 class="">Produce</h4>
+  <div class="row">
+  <div class="center">
+    <a href="/admin" class="btn">Add Produce</a>
+  </div>
+  {{#each user.produce}}
+  <div class="col s12 m6 l4">
+  <!-- <a href=""> -->
+    <div class="card horizontal hoverable black-text">
+      <div class="card-image" style="width:30%;">
+        <img src="https://prominic.net/wp-content/themes/hoxa/assets/images/default.jpg" style="width:100%; max-height:180px;">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content" style="padding-bottom:0;">
+          <p class="hide">{{_id}}</p>
+          <div class="row" style="margin-bottom:0;">
+            <div class="col s6">
+              <h5 style="margin-top:0px;">{{title}}</h5>
+            </div>
+            <div class="col s6" style="text-align:right;">
+              <p>${{price}}/lbs.</p>
+            </div>
+          </div>
+          <div class="row" style="padding-bottom:25px;">
+              <div class="col s6" style="margin-top:5px; font-size:1.2em;">
+                <p class="hide">Total:${{price}}</p>
+                <p>Total:${{price}}</p>
+              </div>
+              <div class="col s6">
+                <input class="num-pieces" style="text-align:center;" class="input-amount" type="number" name="" value="1" min="1">
+              </div>
+            </div>
+        </div>
+        <div class="card-action" style="padding:0; margin-top:-45px;">
+          <form>
+            <input class="btn-large z-depth-0" type="submit" name="" value="Edit" style="margin:0; border-top-left-radius:0; border-top-right-radius:0">
+          </form>
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+  {{/each}}

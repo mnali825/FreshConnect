@@ -1,0 +1,53 @@
+<a class="btn" href="/">Home</a>
+
+<h3 class="center-align">Shopping Cart</h3>
+<div class="row">
+<div class="col l4"></div>
+
+  <div class="col s12 m6 l4">
+  <!-- <a href=""> -->
+  {{#each user.cart.items}}
+    <div class="card horizontal hoverable black-text">
+      <div class="card-image" style="width:30%;">
+        <img src="https://prominic.net/wp-content/themes/hoxa/assets/images/default.jpg" style="width:100%; max-height:180px;">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content" style="padding-bottom:0;">
+          <p class="hide">{{_id}}</p>
+          <div class="row" style="margin-bottom:0;">
+            <div class="col s6">
+              <h5 style="margin-top:0px;">{{title}}</h5>
+            </div>
+            <div class="col s6" style="text-align:right;">
+              <p>${{price}}/lbs.</p>
+            </div>
+          </div>
+          <div class="row" style="padding-bottom:25px;">
+              <div class="col s6">
+                <p class="hide">Total:${{total}}</p>
+                <p id="total">Total:${{total}}</p>
+              </div>
+              <p id="amount">Quantity: {{amount}}</p>
+            </div>
+        </div>
+        <div class="card-action" style="padding:0; margin-top:-45px;">
+          <form>
+            <input class="btn z-depth-0" type="submit" name="" value="Edit" style="margin:0; border-radius:0; width:49.3%;">
+            <input class="btn z-depth-0 red" type="submit" name="" value="Remove" style="margin:0; border-radius:0; width:49.3% ">
+          </form>
+        </div>
+      </div>
+      
+    </div>
+    {{/each}}
+    <a href="" class="btn">Continue</a>
+  </div>
+  
+  <div class="col l4"></div>
+  </div>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function(event) {
+
+  });
+</script>

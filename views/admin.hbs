@@ -1,0 +1,20 @@
+<a href="/">
+<a class="btn-large" href="/">HOME</a>
+</a>
+
+<div class="admin-post">
+<h1>Admin Page</h1>
+<h5>Add items to database</h5>
+
+<p>{{message}}</p>
+
+
+  <form method="POST" action="">
+    Name: <input type="text" name="title">
+    Price: <input type="text" name="price">
+    Type (Vegetable, Fruit, etc.): <input type="text" name="type">
+    <input type="submit" name="" value="Add Item">
+    <!-- <h1>{{user.username}}</h1> -->
+    <input type="hidden" name="username" value="{{user.username}}">
+  </form>
+</div>

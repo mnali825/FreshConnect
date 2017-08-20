@@ -1,0 +1,131 @@
+<div style="background-color:#8FC951; background-image:url(http://www.logrofarms.com/wp-content/uploads/2015/12/Farm-To-Table.jpg); background-size:cover; background-position:0% 30%">
+<div class="navbar">
+  <div class="right-align hide-on-small-only" style="margin-top:15px;">
+    <a href="/faq"><h6 class="white-text inline">FAQ</h6></a>
+    {{#if user}}
+    <a class="inline-header" href=/users/{{user.username}}><h6>{{user.username}}</h6></a>
+    <a class="inline-header" href="/logout"><h6 class="white-text">Logout</h6></a>
+    <a href="/cart" class="inline-header"><i class="small material-icons white-text" style="padding-right:35px;">local_grocery_store</i><div id="cart-number">{{user.cart.items.length}}</div></a>
+    {{else}}
+    <a href="/login" class="inline-header"><h6 class="white-text">Login</h6></a>
+    <a class="btn inline" href="/register" id="signup">Sign Up</a>
+    {{/if}}
+  </div>
+  <h1 class="white-text" style="margin-top:15px;"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Logo_Rosello.png" style="width:100px; padding-right:20px;">Fresh Connect NJ</h1>
+  <p class="white-text" id="subtitle"><em>Fresh produce delivered straight from local farms to your home</em></p>
+  <div>
+  <div class="hide-on-small-only searchbar">
+    <form method="GET" action="" class="inline">
+      <img src="http://www.freeiconspng.com/uploads/search-icon-png-22.png" id="magnify-icon">
+      <input class="search center" type="text" name="search" placeholder="Search" style="width:400px; border:none;">
+    </form>
+  </div>
+  </div>
+  <div class="center">
+    <a class="btn" href="/fruits">Fruits</a>
+    <a class="btn" href="/vegetables">Vegetables</a>
+    <!-- <a class="btn" href="/admin">Admin Page</a> -->
+    <a class="btn" href="/">Show All</a>
+  </div>
+</div>
+</div>
+
+<div class="main" style="padding:25px; padding-top:0px;">
+  <!-- <h4>Specials</h4> -->
+  <h4 class="">Produce</h4>
+  <div class="row">
+  {{#each produce}}
+  <div class="col s12 m6 l4">
+    <div class="card horizontal hoverable black-text" style="min-height:210px;">
+      <div class="card-image" style="width:30%;">
+        <img src="https://prominic.net/wp-content/themes/hoxa/assets/images/default.jpg" style="width:100%; max-height:180px;">
+      </div>
+      <div class="card-stacked">
+        <div class="card-content" style="padding-bottom:0;">
+          <p class="hide">{{_id}}</p>
+          <div class="row" style="margin-bottom:0;">
+            <div class="col s6">
+              <h5 style="margin-top:0px;">{{title}}</h5>
+            </div>
+            <div class="col s6" style="text-align:right;">
+              <p>${{price}}/lbs.</p>
+            </div>
+          </div>
+          <div class="row" style="padding-bottom:25px;">
+              <div class="col s6" style="margin-top:5px; font-size:1.2em;">
+                <p class="hide">Total:${{price}}</p>
+                <p>Total:${{price}}</p>
+              </div>
+              <div class="col s6">
+                <input class="num-pieces" style="text-align:center;" class="input-amount" type="number" name="" value="1" min="1">
+              </div>
+            </div>
+        </div>
+        <div class="card-action" style="padding:0; margin-top:-45px;">
+          <form>
+            <input class="btn-large z-depth-0 add-to-cart" type="submit" name="" value="Add to Cart" style="margin:0; border-top-left-radius:0; border-top-right-radius:0;">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </a> -->
+  
+  {{/each}}
+  </div>
+</div>
+
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", init);
+  function init(event) {
+
+    var amountInput = document.getElementsByClassName("num-pieces");
+    Array.prototype.forEach.call(amountInput, function(input) {
+      input.addEventListener('change', handleIncreaseAmount);
+    });
+
+    var addToCartBtns = document.getElementsByClassName('add-to-cart');
+    Array.prototype.forEach.call(addToCartBtns, function(btn) {
+      btn.addEventListener('click', handleAddToCart);
+    });
+
+    $(window).scroll(function() {
+      if ($(this).scrollTop() > 330) {
+        $(".navbar-fixed").slideDown(500);
+      } else {
+        $(".navbar-fixed").fadeOut(500);
+      }
+    });
+  }
+
+  function handleIncreaseAmount(event) {
+    var amount = this.value;
+    // alert(amount);
+    var totalDOMElement = this.parentNode.parentNode.childNodes[1];
+    var totalDOMElement2 = totalDOMElement.childNodes[3];
+    var cost = totalDOMElement.textContent.split(":")[1].replace(/\s/g, '').split("$")[1];
+    cost = cost.split("Total")[0];
+    var total = amount * cost;
+    totalDOMElement2.textContent = "Total:$"+total;
+  }
+
+  // TODO: Get quantitiy of item and send with post
+  function handleAddToCart(event) {
+    event.preventDefault();
+    var cartDom = document.getElementById('cart-number');
+    var current = Number(cartDom.textContent);
+    current = current + 1;
+    cartDom.textContent = current;
+    var id = this.parentNode.parentNode.parentNode.childNodes[1].childNodes[1].textContent;
+    var amount = this.parentNode.parentNode.parentNode.childNodes[1].childNodes[5].childNodes[3].childNodes[1].value;
+    var cost = this.parentNode.parentNode.parentNode.childNodes[1].childNodes[3].childNodes[3].childNodes[1].textContent.split('/')[0].split("$")[1];
+    var total = Number(amount)*Number(cost);
+
+    var req = new XMLHttpRequest();
+    req.open('post', 'http://localhost:3000/api/addToCart', true);
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    req.send('id='+id+'&amount='+amount+'&total='+total);
+
+    Materialize.toast('Added to Cart!', 2500)
+  }
+</script>
